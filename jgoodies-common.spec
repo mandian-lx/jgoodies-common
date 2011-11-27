@@ -2,7 +2,7 @@
 
 Name:           jgoodies-common
 Version:        1.1.1
-Release:        2
+Release:        4
 Summary:        Common library shared by JGoodies libraries and applications
 
 Group:          Development/Java
