@@ -70,3 +70,11 @@ cp -a build/docs/api/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}/
 %{_javadocdir}/%{name}/
 
 
+
+
+%changelog
+* Sun Nov 27 2011 Guilherme Moro <guilherme@mandriva.com> 1.1.1-4
++ Revision: 734048
+- rebuild
+- imported package jgoodies-common
+
