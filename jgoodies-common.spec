@@ -1,8 +1,8 @@
 %global shortname common
 
 Name:           jgoodies-common
-Version:        1.1.1
-Release:        5
+Version:        1.8.0
+Release:        1
 Summary:        Common library shared by JGoodies libraries and applications
 
 Group:          Development/Java
@@ -10,9 +10,14 @@ License:        BSD
 URL:            http://www.jgoodies.com/
 Source0:        http://www.jgoodies.com/download/libraries/%{shortname}/%{name}-%(tr "." "_" <<<%{version}).zip
 
-BuildRequires:  ant
 BuildRequires:  java-devel
+BuildRequires:  fontconfig
 BuildRequires:  jpackage-utils
+BuildRequires:  maven-local
+BuildRequires:  maven-clean-plugin
+BuildRequires:  maven-dependency-plugin
+BuildRequires:	fonts-ttf-dejavu
+
 Requires:       java
 Requires:       jpackage-utils
 BuildArch:      noarch
@@ -35,6 +40,15 @@ This package contains the API documentation for %{name}.
 %prep
 %setup -q
 
+# Unzip source and test files from provided JARs
+mkdir -p src/main/java/ src/test/java/
+pushd src/main/java/
+jar -xf ../../../%{name}-%{version}-sources.jar
+popd
+pushd src/test/java/
+jar -xf ../../../%{name}-%{version}-tests.jar
+popd
+
 # Delete prebuild JARs
 find -name "*.jar" -exec rm -f {} \;
 
@@ -47,29 +61,16 @@ done
 
 
 %build
-ant \
-  jar \
-  javadoc
-
+%mvn_build
 
 %install
-install -Dpm 0644 build/%{name}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}.jar
+%mvn_install
 
-mkdir -p $RPM_BUILD_ROOT%{_javadocdir}/%{name}/
-cp -a build/docs/api/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}/
-
-
-%files
-%defattr(-,root,root,-)
+%files -f .mfiles
 %doc LICENSE.txt README.html RELEASE-NOTES.txt
-%{_javadir}/*.jar
 
 
-%files javadoc
-%defattr(-,root,root,-)
-%{_javadocdir}/%{name}/
-
-
+%files javadoc -f .mfiles-javadoc
 
 
 %changelog
