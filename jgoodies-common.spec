@@ -1,7 +1,9 @@
 %define oname JGoodies
-%define bname %(echo %oname | tr [:upper:] [:lower:])
-%define shortname common
+%define shortoname Common
 %define releasedate 20140629
+
+%define bname %(echo %oname | tr [:upper:] [:lower:])
+%define shortname %(echo %shortoname | tr [:upper:] [:lower:])
 
 %define version 1.8.1
 %define oversion %(echo %version | tr \. _)
@@ -40,11 +42,11 @@ It requires Java 6 or later.
 #----------------------------------------------------------------------------
 
 %package	javadoc
-Summary:	Javadoc for JGoodies Common
+Summary:	Javadoc for %{oname} %{shortoname}
 Requires:	jpackage-utils
 
 %description javadoc
-API documentation for JGoodies Common.
+API documentation for %{oname} %{shortoname}.
 
 %files javadoc -f .mfiles-javadoc
 
