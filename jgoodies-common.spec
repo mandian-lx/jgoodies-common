@@ -24,6 +24,9 @@ BuildArch:	noarch
 
 BuildRequires:	java-rpmbuild
 BuildRequires:	maven-local
+# The following are required for tests only
+BuildRequires:	x11-server-xvfb
+BuildRequires:	mvn(junit:junit)
 
 Requires:	java-headless >= 1.6
 Requires:	jpackage-utils
