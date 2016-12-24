@@ -19,7 +19,7 @@ Source0:	http://www.jgoodies.com/download/libraries/%{shortname}/%{name}-%{overs
 # NOTE: Latest version of jgoodies libraries can't be freely download from
 #	from the official site. However official maven repo provides some
 #	more updated versions
-# Source0:	https://repo1.maven.org/maven2/com/%{bname}/%{bname}-%{shortname}/%{version}/%{bname}-%{shortname}-%{version}-sources.jar
+# Source0:	https://repo1.maven.org/maven2/com/%{bname}/%{name}/%{version}/%{name}-%{version}-sources.jar
 BuildArch:	noarch
 
 BuildRequires:	java-rpmbuild
@@ -73,8 +73,8 @@ rm -fr docs
 
 # Exclude failing tests
 # Tests in error: 
-#  MnemonicUtilsTest.htmlText:49->testMnemonic:190 ? NullPointer
-#  ERROR: java.lang.NullPointerException: null
+#	MnemonicUtilsTest.htmlText:49->testMnemonic:190 ? NullPointer
+# 	ERROR: java.lang.NullPointerException: null
 %pom_add_plugin :maven-surefire-plugin . "<configuration>
 	<excludes>
 		<exclude>**/MnemonicUtilsTest.java</exclude>
