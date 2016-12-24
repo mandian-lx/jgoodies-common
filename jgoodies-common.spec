@@ -1,81 +1,87 @@
-%global shortname common
+%define bname jgoodies
+%define shortname common
+%define releasedate 20140629
 
-Name:           jgoodies-common
-Version:        1.8.0
-Release:        1
-Summary:        Common library shared by JGoodies libraries and applications
+%define version 1.8.1
+%define oversion %(echo %dversion | tr \. _)
 
-Group:          Development/Java
-License:        BSD
-URL:            http://www.jgoodies.com/
-Source0:        http://www.jgoodies.com/download/libraries/%{shortname}/%{name}-%(tr "." "_" <<<%{version}).zip
+Summary:	Provides convenience code for other JGoodies libraries and applications
+Name:	  	%{bname}-%{shortname}
+Version:	%{version}
+Release:	1
+License:	BSD
+Group:	 	 Development/Java
+URL:	  	  http://www.jgoodies.com/freeware/libraries/%{shortname}/
+Source0:	http://www.jgoodies.com/download/libraries/%{shortname}/%{name}-%{oversion}-%{releasedate}.zip
+# NOTE: Latest version of jgoodies libraries can't be freely download from
+#       from the official site. However official maven repo provides some
+#       more updated versions
+# Source0:	https://repo1.maven.org/maven2/com/%{bname}/%{bname}-%{shortname}/%{version}/%{bname}-%{shortname}-%{version}-sources.jar
+BuildArch:       noarch
 
-BuildRequires:  java-devel
-BuildRequires:  fontconfig
-BuildRequires:  jpackage-utils
+BuildRequires:  java-rpmbuild
 BuildRequires:  maven-local
-BuildRequires:  maven-clean-plugin
-BuildRequires:  maven-dependency-plugin
-BuildRequires:	fonts-ttf-dejavu
 
-Requires:       java
-Requires:       jpackage-utils
-BuildArch:      noarch
+Requires:   java-headless >= 1.6
+Requires:   jpackage-utils
 
 %description
-The JGoodies Common library provides convenience code for other JGoodies
-libraries and applications.
+The JGoodies Common library provides convenience code for other
+JGoodies libraries and applications.
 
+It requires Java 6 or later.
 
-%package javadoc
-Summary:        Javadoc for %{name}
-Group:          Development/Java
-Requires:       %{name} = %{version}-%{release}
+%files -f .mfiles
+%doc README.html
+%doc RELEASE-NOTES.txt
+%doc LICENSE.txt
+
+#----------------------------------------------------------------------------
+
+%package	javadoc
+Summary:	Javadoc for JGoodies Common
 Requires:       jpackage-utils
 
 %description javadoc
-This package contains the API documentation for %{name}.
+API documentation for JGoodies Common.
 
+%files javadoc -f .mfiles-javadoc
+
+#----------------------------------------------------------------------------
 
 %prep
 %setup -q
-
-# Unzip source and test files from provided JARs
-mkdir -p src/main/java/ src/test/java/
+# Extract sources
+mkdir -p src/main/java/
 pushd src/main/java/
-jar -xf ../../../%{name}-%{version}-sources.jar
+%jar -xf ../../../%{name}-%{version}-sources.jar
 popd
+
+# Extract tests
+mkdir -p src/test/java/
 pushd src/test/java/
-jar -xf ../../../%{name}-%{version}-tests.jar
+%jar -xf ../../../%{name}-%{version}-tests.jar
 popd
 
-# Delete prebuild JARs
-find -name "*.jar" -exec rm -f {} \;
+# Delete prebuild JARs and binaries and docs
+%{_bindir}/find . -name "*.jar"   -delete
+%{_bindir}/find . -name "*.class" -delete
+rm -fr docs
 
-# Remove DOS line endings
-for file in LICENSE.txt RELEASE-NOTES.txt; do
-  sed 's|\r||g' $file > $file.new && \
-  touch -r $file $file.new && \
-  mv $file.new $file
-done
+# Add the META-INF/INDEX.LIST to the jar archive
+# (fix jar-not-indexed warning)
+%pom_add_plugin :maven-jar-plugin . "<configuration>
+      <archive>
+	<index>true</index>
+      </archive>
+    </configuration>"
 
+# Fix Jar name
+%mvn_file :%{name} %{name}-%{version} %{name}
 
 %build
 %mvn_build
 
 %install
 %mvn_install
-
-%files -f .mfiles
-%doc LICENSE.txt README.html RELEASE-NOTES.txt
-
-
-%files javadoc -f .mfiles-javadoc
-
-
-%changelog
-* Sun Nov 27 2011 Guilherme Moro <guilherme@mandriva.com> 1.1.1-4
-+ Revision: 734048
-- rebuild
-- imported package jgoodies-common
 
