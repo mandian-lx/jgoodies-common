@@ -13,7 +13,7 @@ Name:		%{bname}-%{shortname}
 Version:	%{version}
 Release:	1
 License:	BSD
-Group:	 	Development/Java
+Group:		Development/Java
 URL:		http://www.jgoodies.com/freeware/libraries/%{shortname}/
 Source0:	http://www.jgoodies.com/download/libraries/%{shortname}/%{name}-%{oversion}-%{releasedate}.zip
 # NOTE: Latest version of jgoodies libraries can't be freely download from
@@ -71,16 +71,6 @@ find . -name "*.jar" -delete
 find . -name "*.class" -delete
 rm -fr docs
 
-# Exclude failing tests
-# Tests in error: 
-#	MnemonicUtilsTest.htmlText:49->testMnemonic:190 ? NullPointer
-# 	ERROR: java.lang.NullPointerException: null
-%pom_add_plugin :maven-surefire-plugin . "<configuration>
-	<excludes>
-		<exclude>**/MnemonicUtilsTest.java</exclude>
-	</excludes>
-</configuration>"
-
 # Add the META-INF/INDEX.LIST to the jar archive
 # (fix jar-not-indexed warning)
 %pom_add_plugin :maven-jar-plugin . "<configuration>
@@ -93,7 +83,7 @@ rm -fr docs
 %mvn_file :%{name} %{name}-%{version} %{name}
 
 %build
-%mvn_build
+xvfb-run -a %mvn_build
 
 %install
 %mvn_install
