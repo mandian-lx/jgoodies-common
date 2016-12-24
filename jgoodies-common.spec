@@ -1,29 +1,30 @@
-%define bname jgoodies
+%define oname JGoodies
+%define bname %(echo %oname | tr [:upper:] [:lower:])
 %define shortname common
 %define releasedate 20140629
 
 %define version 1.8.1
-%define oversion %(echo %dversion | tr \. _)
+%define oversion %(echo %version | tr \. _)
 
 Summary:	Provides convenience code for other JGoodies libraries and applications
-Name:	  	%{bname}-%{shortname}
+Name:		%{bname}-%{shortname}
 Version:	%{version}
 Release:	1
 License:	BSD
-Group:	 	 Development/Java
-URL:	  	  http://www.jgoodies.com/freeware/libraries/%{shortname}/
+Group:	 	Development/Java
+URL:		http://www.jgoodies.com/freeware/libraries/%{shortname}/
 Source0:	http://www.jgoodies.com/download/libraries/%{shortname}/%{name}-%{oversion}-%{releasedate}.zip
 # NOTE: Latest version of jgoodies libraries can't be freely download from
-#       from the official site. However official maven repo provides some
-#       more updated versions
+#	from the official site. However official maven repo provides some
+#	more updated versions
 # Source0:	https://repo1.maven.org/maven2/com/%{bname}/%{bname}-%{shortname}/%{version}/%{bname}-%{shortname}-%{version}-sources.jar
-BuildArch:       noarch
+BuildArch:	noarch
 
-BuildRequires:  java-rpmbuild
-BuildRequires:  maven-local
+BuildRequires:	java-rpmbuild
+BuildRequires:	maven-local
 
-Requires:   java-headless >= 1.6
-Requires:   jpackage-utils
+Requires:	java-headless >= 1.6
+Requires:	jpackage-utils
 
 %description
 The JGoodies Common library provides convenience code for other
@@ -40,7 +41,7 @@ It requires Java 6 or later.
 
 %package	javadoc
 Summary:	Javadoc for JGoodies Common
-Requires:       jpackage-utils
+Requires:	jpackage-utils
 
 %description javadoc
 API documentation for JGoodies Common.
@@ -64,17 +65,17 @@ pushd src/test/java/
 popd
 
 # Delete prebuild JARs and binaries and docs
-%{_bindir}/find . -name "*.jar"   -delete
-%{_bindir}/find . -name "*.class" -delete
+find . -name "*.jar" -delete
+find . -name "*.class" -delete
 rm -fr docs
 
 # Add the META-INF/INDEX.LIST to the jar archive
 # (fix jar-not-indexed warning)
 %pom_add_plugin :maven-jar-plugin . "<configuration>
-      <archive>
-	<index>true</index>
-      </archive>
-    </configuration>"
+	<archive>
+		<index>true</index>
+	</archive>
+</configuration>"
 
 # Fix Jar name
 %mvn_file :%{name} %{name}-%{version} %{name}
