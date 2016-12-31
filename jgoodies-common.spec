@@ -22,11 +22,10 @@ Source0:	http://www.jgoodies.com/download/libraries/%{shortname}/%{name}-%{overs
 # Source0:	https://repo1.maven.org/maven2/com/%{bname}/%{name}/%{version}/%{name}-%{version}-sources.jar
 BuildArch:	noarch
 
-BuildRequires:	jpackage-utils
 BuildRequires:	maven-local
 # The followings are required for tests only
-BuildRequires:  fontconfig
-BuildRequires:  fonts-ttf-dejavu
+BuildRequires:	fontconfig
+BuildRequires:	fonts-ttf-dejavu
 BuildRequires:	mvn(junit:junit)
 
 Requires:	java-headless >= 1.6
@@ -75,7 +74,7 @@ find . -name "*.jar" -delete
 find . -name "*.class" -delete
 rm -fr docs
 
-# Fix jar-not-indexed warning)
+# Fix jar-not-indexed warning
 %pom_add_plugin :maven-jar-plugin . "<configuration>
 	<archive>
 		<index>true</index>
