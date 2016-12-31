@@ -24,8 +24,7 @@ BuildArch:	noarch
 
 BuildRequires:	java-rpmbuild
 BuildRequires:	maven-local
-# The following are required for tests only
-BuildRequires:	x11-server-xvfb
+# The following is required for tests only
 BuildRequires:	mvn(junit:junit)
 
 Requires:	java-headless >= 1.6
@@ -75,8 +74,7 @@ find . -name "*.jar" -delete
 find . -name "*.class" -delete
 rm -fr docs
 
-# Add the META-INF/INDEX.LIST to the jar archive
-# (fix jar-not-indexed warning)
+# Fix jar-not-indexed warning)
 %pom_add_plugin :maven-jar-plugin . "<configuration>
 	<archive>
 		<index>true</index>
@@ -87,7 +85,7 @@ rm -fr docs
 %mvn_file :%{name} %{name}-%{version} %{name}
 
 %build
-xvfb-run -a %mvn_build
+%mvn_build
 
 %install
 %mvn_install
