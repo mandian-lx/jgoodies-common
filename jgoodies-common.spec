@@ -22,9 +22,11 @@ Source0:	http://www.jgoodies.com/download/libraries/%{shortname}/%{name}-%{overs
 # Source0:	https://repo1.maven.org/maven2/com/%{bname}/%{name}/%{version}/%{name}-%{version}-sources.jar
 BuildArch:	noarch
 
-BuildRequires:	java-rpmbuild
+BuildRequires:	jpackage-utils
 BuildRequires:	maven-local
-# The following is required for tests only
+# The followings are required for tests only
+BuildRequires:  fontconfig
+BuildRequires:  fonts-ttf-dejavu
 BuildRequires:	mvn(junit:junit)
 
 Requires:	java-headless >= 1.6
