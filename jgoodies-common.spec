@@ -1,3 +1,5 @@
+%{?_javapackages_macros:%_javapackages_macros}
+
 %define oname JGoodies
 %define shortoname Common
 %define releasedate 20140629
