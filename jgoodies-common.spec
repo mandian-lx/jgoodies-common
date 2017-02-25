@@ -28,9 +28,6 @@ BuildRequires:	fontconfig
 BuildRequires:	fonts-ttf-dejavu
 BuildRequires:	mvn(junit:junit)
 
-Requires:	java-headless >= 1.6
-Requires:	jpackage-utils
-
 %description
 The JGoodies Common library provides convenience code for other
 JGoodies libraries and applications.
