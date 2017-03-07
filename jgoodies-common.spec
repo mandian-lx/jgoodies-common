@@ -80,6 +80,9 @@ rm -fr docs
 	</archive>
 </configuration>"
 
+# Add versioned alias
+%mvn_alias :%{name} :%{name}-%{version}
+
 # Fix Jar name
 %mvn_file :%{name} %{name}-%{version} %{name}
 
