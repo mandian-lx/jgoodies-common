@@ -84,6 +84,7 @@ rm -fr docs
 	<instructions>
 		<Bundle-Name>\${project.artifactId}</Bundle-Name>
 		<Bundle-Version>\${project.version}</Bundle-Version>
+		<Export-Package>*;version="\${pom.version}"</Export-Package>
 	</instructions>
 </configuration>
 <executions>
