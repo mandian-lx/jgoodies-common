@@ -24,11 +24,12 @@ Source0:	http://www.jgoodies.com/download/libraries/%{shortname}/%{name}-%{overs
 # Source0:	https://repo1.maven.org/maven2/com/%{bname}/%{name}/%{version}/%{name}-%{version}-sources.jar
 BuildArch:	noarch
 
-BuildRequires:	maven-local
-# The followings are required for tests only
 BuildRequires:	fontconfig
 BuildRequires:	fonts-ttf-dejavu
-BuildRequires:	mvn(junit:junit)
+BuildRequires:  maven-local
+BuildRequires:  mvn(junit:junit)
+BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
+BuildRequires:  mvn(org.sonatype.oss:oss-parent:pom:)
 
 %description
 The JGoodies Common library provides convenience code for other
