@@ -120,6 +120,9 @@ rm -fr docs
 	</execution>
 </executions>"
 
+# Fix jar name
+%mvn_file :%{name} %{name}
+
 %build
 %mvn_build
 
